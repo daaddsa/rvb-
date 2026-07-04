@@ -1,0 +1,8 @@
+risk_matrix_version: ASI_2026
+library_version: v1
+active: true
+
+risk_types:
+  - id: ASI01
+    name: 目标劫持
+    description: 恶意输入篡改 Agent

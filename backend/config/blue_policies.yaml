@@ -1,0 +1,77 @@
+roles:
+  guest:
+    allowed_tools:
+      - query_balance
+      - query_order
+      - query_customer_summary
+    denied_tools:
+      - transfer_money
+      - admin_update_user
+      - export_customer_data
+
+thresholds:
+  max_transfer_amount_without_approval: 1000
+
+actions:
+  high_risk: block_and_alert
+  medium_risk: degrade_or_review
+  low_risk: allow_with_audit
+
+detectors:
+  input:
+    use_rellm: true
+  output:
+    use_rap: true
+
+sensitive_fields:
+  - id_card
+  - phone
+  - bank_account
+  - password
+  - address
+  - account_balance
+
+input_rules:
+  - id: goal_hijacking
+    risk_type: ASI01
+    risk_level: high
+    action: block
+    keywords:
+      - 忽略之前
+      - 替换原始任务
+      - 调试模式
+  - id: approval_bypass
+    risk_type: ASI02
+    risk_level: high
+    action: block
+    keywords:
+      - 不需要审批
+      - 绕过审批
+      - 审批记录稍后
+  - id: privilege_escalation
+    risk_type: ASI03
+    risk_level: high
+    action: block
+    keywords:
+      - 我是管理员
+      - 风控主管
+      - 高权限
+
+output_rules:
+  - id: sensitive_data_output
+    risk_type: ASI07
+    risk_level: high
+    action: block
+    keywords:
+      - 身份证
+      - 银行卡
+      - 手机号
+      - password
+  - id: private_field_output
+    risk_type: ASI07
+    risk_level: high
+    action: block
+    keywords:
+      - id_card
+      - bank_account
+      - phone

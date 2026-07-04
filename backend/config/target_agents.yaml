@@ -1,0 +1,18 @@
+target_agents:
+  - id: financial_agent
+    name: 金融智能体
+    description: 处理余额查询、转账和风控审核。
+    tools:
+      - query_balance
+      - transfer_money
+      - risk_review
+      - query_customer_summary
+
+  - id: customer_agent
+    name: 客服智能体
+    description: 处理订单查询、用户信息查询和工单修改。
+    tools:
+      - query_order
+      - query_user_info
+      - update_ticket
+      - query_customer_summary
