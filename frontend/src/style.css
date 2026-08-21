@@ -1,19 +1,42 @@
+/**
+ * style.css — 全局样式文件
+ * 包含 Tailwind CSS 基础样式和项目自定义样式。
+ * 定义 CSS 变量（颜色、边框、圆角、字体等）、布局组件样式、
+ * 攻击流程图样式、数据查看器样式、审计时间线样式等。
+ * 支持浅色/深色主题切换（通过 CSS 类名切换）。
+ */
+
+/* ==================== Tailwind CSS 基础样式 ==================== */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ==================== CSS 变量（设计令牌） ==================== */
 :root {
+  /* 背景色 */
   --color-bg: #f6f8fa;
+  /* 面板背景色（白色） */
   --color-panel: #ffffff;
+  /* 边框颜色 */
   --color-border: #d0d7de;
+  /* 主文字颜色 */
   --color-text: #24292f;
+  /* 次要文字颜色（灰色） */
   --color-muted: #57606a;
+  /* 成功色（绿色） */
   --color-success: #1a7f37;
+  /* 危险/错误色（红色） */
   --color-danger: #cf222e;
+  /* 警告色（黄色） */
   --color-warning: #9a6700;
+  /* 强调色/链接色（蓝色） */
   --color-accent: #0969da;
+  /* 圆角半径 */
   --radius-md: 6px;
+  /* 等宽字体（用于代码显示） */
   --font-mono: Consolas, 'JetBrains Mono', monospace;
+
+  /* 全局字体和基础样式 */
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
   color: var(--color-text);
   background: var(--color-bg);
@@ -23,132 +46,383 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ==================== 全局元素重置 ==================== */
+
+/* 全局 box-sizing 设为 border-box，使宽高计算包含 padding 和 border */
 * { box-sizing: border-box; }
+
+/* body 基础样式 */
 body { margin: 0; min-width: 1024px; background: var(--color-bg); }
+
+/* 按钮继承字体 */
 button { font: inherit; }
+
+/* code 和 pre 标签使用等宽字体 */
 code, pre { font-family: var(--font-mono); }
 
+/* ==================== 布局结构 ==================== */
+
+/* 工作区外壳：flex 布局，全屏高度 */
 .workspace-shell { display: flex; min-height: 100vh; background: var(--color-bg); }
+
+/* 主内容区：flex 自适应宽度，可滚动 */
 .main-content { flex: 1; min-width: 0; padding: 20px; overflow-y: auto; }
+
+/* 错误提示间距 */
 .error-alert { margin-bottom: 12px; }
 
+/* ==================== 侧边栏 ==================== */
+
+/* 侧边栏：固定宽度 300px，右边框分割，支持折叠过渡动画 */
 .sidebar { width: 300px; flex: 0 0 300px; min-height: 100vh; padding: 12px; background: var(--color-panel); border-right: 1px solid var(--color-border); transition: width .2s ease, flex-basis .2s ease; }
+
+/* 侧边栏折叠状态：宽度收缩为 48px */
 .sidebar.collapsed { width: 48px; flex-basis: 48px; padding: 8px 6px; }
+
+/* 侧边栏顶部区域（品牌名 + 折叠按钮） */
 .sidebar-top { display: flex; align-items: center; gap: 10px; height: 36px; margin-bottom: 14px; }
+
+/* 品牌名称 */
 .brand { font-weight: 700; font-size: 14px; }
+
+/* 图标按钮和幽灵按钮通用样式 */
 .icon-button, .ghost-button { display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--color-border); background: var(--color-panel); border-radius: var(--radius-md); color: var(--color-text); cursor: pointer; }
+
+/* 图标按钮：32x32 方形 */
 .icon-button { width: 32px; height: 32px; }
+
+/* 幽灵按钮：28x28 方形 */
 .ghost-button { width: 28px; height: 28px; }
+
+/* 按钮悬停效果 */
 .icon-button:hover, .ghost-button:hover { background: #f3f4f6; }
+
+/* 侧边栏分区（带边框的卡片式区域） */
 .sidebar-section { border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 12px; margin-bottom: 12px; }
+
+/* 分区标题 */
 .section-title { display: flex; align-items: center; justify-content: space-between; color: var(--color-muted); font-size: 12px; font-weight: 700; margin-bottom: 10px; }
+
+/* 任务选择下拉框 */
 .task-select { width: 100%; }
+
+/* 任务选项行 */
 .task-option { display: flex; align-items: center; gap: 8px; width: 100%; }
+
+/* 任务选项中的小字（右对齐） */
 .task-option small { margin-left: auto; color: var(--color-muted); }
+
+/* 状态指示点（小圆点） */
 .status-dot { width: 8px; height: 8px; border-radius: 999px; background: var(--color-muted); }
+
+/* 状态指示点：已完成（绿色） */
 .status-dot.completed { background: var(--color-success); }
+
+/* 状态指示点：运行中（蓝色） */
 .status-dot.running { background: var(--color-accent); }
+
+/* 状态指示点：失败（红色） */
 .status-dot.failed { background: var(--color-danger); }
+
+/* 参数行（键值对） */
 .param-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 0; border-bottom: 1px solid #eaeef2; font-size: 13px; }
+
+/* 最后一行参数去掉底部边框 */
 .param-row:last-child { border-bottom: 0; }
+
+/* 参数行的标签文字 */
 .param-row span { color: var(--color-muted); }
+
+/* 参数行的值文字 */
 .param-row strong, .param-row code { min-width: 0; text-align: right; word-break: break-all; }
+
+/* 标签类型的参数行（多标签换行） */
 .param-row.tags { align-items: flex-start; flex-wrap: wrap; justify-content: flex-start; }
+
+/* 标签类型参数行的标题占满一行 */
 .param-row.tags span { flex-basis: 100%; }
+
+/* 折叠状态下的图标列表 */
 .collapsed-icons { display: flex; flex-direction: column; align-items: center; gap: 18px; padding-top: 12px; color: var(--color-muted); }
+
+/* 创建任务按钮（绿色） */
 .create-button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; width: 100%; height: 36px; border: 1px solid var(--color-border); border-radius: var(--radius-md); color: #fff; background: var(--color-success); cursor: pointer; }
+
+/* 表单网格布局（两列） */
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
+/* ==================== 面板与任务头部 ==================== */
+
+/* 通用面板卡片 */
 .panel { background: var(--color-panel); border: 1px solid var(--color-border); border-radius: var(--radius-md); margin-bottom: 16px; }
+
+/* 任务头部区域 */
 .task-header { padding: 20px; }
+
+/* 眉题文字（小号大写字母） */
 .eyebrow { margin: 0 0 6px; color: var(--color-muted); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+
+/* 主标题 */
 h1 { margin: 0; font-size: 24px; line-height: 1.25; }
+
+/* 元信息行（标签、时间等） */
 .meta-line { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 10px; color: var(--color-muted); font-size: 13px; }
+
+/* 状态徽章（胶囊形标签） */
 .status-badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px; color: #fff; font-weight: 700; font-size: 12px; }
+
+/* 状态徽章：已完成（绿色） */
 .status-badge.completed { background: var(--color-success); }
+
+/* 状态徽章：运行中（蓝色） */
 .status-badge.running { background: var(--color-accent); }
+
+/* 状态徽章：失败（红色） */
 .status-badge.failed { background: var(--color-danger); }
+
+/* 状态徽章：待执行/空（灰色） */
 .status-badge.pending, .status-badge.empty { background: var(--color-muted); }
+
+/* 灰色文字 */
 .muted { color: var(--color-muted); }
+
+/* 面板标题栏 */
 .panel-title { display: flex; align-items: flex-start; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid var(--color-border); }
+
+/* 面板标题文字 */
 .panel-title h2 { margin: 0; font-size: 16px; }
+
+/* 面板标题副文字 */
 .panel-title p { margin: 4px 0 0; color: var(--color-muted); font-size: 12px; }
 
+/* ==================== 攻击流程图 ==================== */
+
+/* 攻击流程图容器 */
 .action-graph { overflow: hidden; }
+
+/* 阶段概览（右侧统计信息） */
 .stage-overview { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; max-width: 420px; color: var(--color-muted); font-size: 12px; text-align: right; }
+
+/* 阶段概览中的加粗文字 */
 .stage-overview strong { color: var(--color-text); font-size: 13px; }
+
+/* 阶段概览中的普通文字 */
 .stage-overview span { line-height: 1.5; }
+
+/* 阶段行（横向排列各阶段节点） */
 .stage-line { display: flex; align-items: stretch; padding: 22px 18px 26px; overflow-x: auto; }
+
+/* 阶段包裹器（每个节点占据固定宽度） */
 .stage-wrap { display: flex; align-items: center; flex: 1 0 180px; }
+
+/* 阶段节点（圆角矩形） */
 .stage-node { display: inline-flex; align-items: center; gap: 10px; min-width: 160px; padding: 12px 14px; border: 1px solid var(--color-border); border-radius: 18px; background: #f6f8fa; color: var(--color-muted); font-size: 13px; font-weight: 700; }
+
+/* 阶段节点文字区域 */
 .stage-copy { display: flex; flex-direction: column; gap: 3px; }
+
+/* 阶段节点小字 */
 .stage-copy small { color: currentColor; font-size: 11px; font-weight: 600; opacity: .78; }
+
+/* 阶段节点：放行动作（绿色） */
 .stage-node.allow { color: var(--color-success); border-color: #a6d7b2; background: #f0fff4; }
+
+/* 阶段节点：拦截动作（红色） */
 .stage-node.block { color: var(--color-danger); border-color: #ffb3b8; background: #fff1f2; }
+
+/* 阶段节点：降级动作（黄色） */
 .stage-node.degrade { color: var(--color-warning); border-color: #f0d98c; background: #fff8c5; }
+
+/* 阶段节点：活跃状态（蓝色脉冲动画） */
 .stage-node.active { box-shadow: 0 0 0 4px rgba(9,105,218,.12); animation: pulse-blue 1.4s infinite; }
+
+/* 阶段节点：运行中（蓝色） */
 .stage-node.running { color: var(--color-accent); border-color: rgba(9,105,218,.26); background: rgba(9,105,218,.08); }
+
+/* 阶段连接线（节点之间的横线） */
 .stage-connector { height: 2px; flex: 1; min-width: 42px; background: var(--color-border); }
+
+/* 阶段连接线：放行（绿色） */
 .stage-connector.allow { background: var(--color-success); }
+
+/* 阶段连接线：拦截（红色） */
 .stage-connector.block { background: var(--color-danger); }
+
+/* 阶段连接线：降级（黄色） */
 .stage-connector.degrade { background: var(--color-warning); }
+
+/* 阶段连接线：等待中（默认边框色） */
 .stage-connector.pending { background: var(--color-border); }
+
+/* 蓝色脉冲动画关键帧（用于活跃节点呼吸效果） */
 @keyframes pulse-blue { 0%,100% { box-shadow: 0 0 0 3px rgba(9,105,218,.12); } 50% { box-shadow: 0 0 0 7px rgba(9,105,218,.2); } }
 
+/* ==================== 数据查看器 ==================== */
+
+/* 数据查看器容器 */
 .data-viewer { overflow: hidden; }
+
+/* 攻击运行列表（纵向排列） */
 .attack-run-list { display: flex; flex-direction: column; gap: 14px; padding: 16px; }
+
+/* 攻击运行卡片 */
 .attack-run-card { border: 1px solid var(--color-border); border-radius: var(--radius-md); background: #f6f8fa; overflow: hidden; }
+
+/* 攻击运行卡片头部和攻击摘要头部 */
 .attack-run-head, .attack-summary-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--color-border); background: var(--color-panel); }
+
+/* 攻击运行卡片标题 */
 .attack-run-head h3 { margin: 0; font-size: 15px; }
+
+/* 三列输出网格（prompt / response / 检测结果） */
 .three-output-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding: 12px; }
+
+/* 输出列标题 */
 .output-column h4 { margin: 0 0 8px; font-size: 13px; color: var(--color-muted); }
+
+/* 运行状态标签 */
 .run-status { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px; background: var(--color-muted); color: #fff; font-size: 12px; font-weight: 700; }
+
+/* 运行状态：放行（绿色） */
 .run-status.allow { background: var(--color-success); }
+
+/* 运行状态：拦截（红色） */
 .run-status.block { background: var(--color-danger); }
+
+/* 运行状态：降级（黄色） */
 .run-status.degrade { background: var(--color-warning); }
+
+/* 运行状态：等待中/运行中（灰色） */
 .run-status.pending, .run-status.running { background: var(--color-muted); }
+
+/* 代码块（深色背景，模拟终端样式） */
 .code-block { height: 260px; overflow: auto; margin: 0; padding: 16px; border-radius: var(--radius-md); background: #0d1117; color: #c9d1d9; font-size: 12px; line-height: 1.55; }
+
+/* ==================== 安全洞察面板 ==================== */
+
+/* 洞察布局：左侧 65% + 右侧 35% 双栏 */
 .insights-layout { display: grid; grid-template-columns: minmax(0, 65%) minmax(320px, 35%); gap: 16px; align-items: start; }
+
+/* 左侧洞察区域 */
 .insights-left { min-width: 0; }
+
+/* 指标卡片网格（三列） */
 .metric-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+
+/* 最终指标区域 */
 .final-metrics { padding: 16px 16px 0; }
+
+/* 指标卡片 */
 .metric-card { padding: 14px; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-panel); }
+
+/* 指标卡片中的标签 */
 .metric-card span { display: block; color: var(--color-muted); font-size: 12px; margin-bottom: 6px; }
+
+/* 指标卡片中的数值 */
 .metric-card strong { font-size: 22px; }
+
+/* 紧凑面板 */
 .compact-panel { padding-bottom: 16px; }
+
+/* 攻击摘要列表 */
 .attack-summary-list { display: flex; flex-direction: column; gap: 12px; padding: 16px; }
+
+/* 攻击摘要卡片 */
 .attack-summary-card { border: 1px solid var(--color-border); border-radius: var(--radius-md); background: #f6f8fa; overflow: hidden; }
+
+/* 攻击摘要卡片中的文字 */
 .attack-summary-card p { margin: 0; padding: 0 14px 14px; color: var(--color-text); font-size: 13px; line-height: 1.6; }
+
+/* 摘要字段网格（四列） */
 .summary-fields { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; padding: 12px 14px; color: var(--color-muted); font-size: 12px; }
+
+/* 图表容器 */
 .chart { height: 260px; }
+
+/* JSON 数据展示网格（两列） */
 .json-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 16px; }
+
+/* JSON 数据 pre 标签 */
 .json-grid pre { margin: 0; padding: 12px; min-height: 140px; max-height: 260px; overflow: auto; border-radius: var(--radius-md); background: #f6f8fa; border: 1px solid var(--color-border); font-size: 12px; }
+
+/* Markdown 渲染内容区域 */
 .markdown-body { padding: 16px; line-height: 1.7; }
+
+/* Markdown 一级标题 */
 .markdown-body h1 { font-size: 20px; border-bottom: 1px solid var(--color-border); padding-bottom: 8px; }
+
+/* Markdown 二级标题 */
 .markdown-body h2 { font-size: 16px; margin-top: 18px; }
 
+/* ==================== 审计时间线 ==================== */
+
+/* 审计时间线容器（粘性定位，跟随滚动） */
 .audit-timeline { position: sticky; top: 20px; max-height: calc(100vh - 40px); overflow: hidden; }
+
+/* 时间线滚动区域 */
 .timeline-scroll { max-height: calc(100vh - 120px); overflow-y: auto; padding: 12px 14px 16px; }
+
+/* 时间线条目（相对定位，用于绘制竖线） */
 .timeline-item { position: relative; display: flex; gap: 12px; padding-bottom: 18px; }
+
+/* 时间线条目之间的竖线（通过伪元素绘制） */
 .timeline-item::before { content: ''; position: absolute; left: 5px; top: 14px; bottom: 0; width: 1px; background: var(--color-border); }
+
+/* 时间线圆点指示器 */
 .timeline-dot { position: relative; z-index: 1; width: 11px; height: 11px; margin-top: 5px; border-radius: 999px; background: var(--color-muted); }
+
+/* 时间线圆点：成功（绿色） */
 .timeline-item.success .timeline-dot { background: var(--color-success); }
+
+/* 时间线圆点：危险（红色） */
 .timeline-item.danger .timeline-dot { background: var(--color-danger); }
+
+/* 时间线圆点：警告（黄色） */
 .timeline-item.warning .timeline-dot { background: var(--color-warning); }
+
+/* 时间线内容区域 */
 .timeline-content { min-width: 0; flex: 1; }
+
+/* 时间线头部（事件类型 + 时间） */
 .timeline-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+
+/* 时间线头部中的事件类型（蓝色代码样式） */
 .timeline-head code { color: var(--color-accent); font-size: 12px; word-break: break-all; }
+
+/* 时间线头部中的时间戳 */
 .timeline-head span { color: var(--color-muted); font-size: 11px; }
+
+/* 时间线内容文字 */
 .timeline-content p { margin: 6px 0; color: var(--color-text); font-size: 13px; word-break: break-word; }
+
+/* 时间线元信息（标签列表） */
 .timeline-meta { display: flex; flex-wrap: wrap; gap: 6px; color: var(--color-muted); font-size: 11px; }
 
+/* ==================== 响应式布局（窄屏适配） ==================== */
+
+/* 当屏幕宽度 ≤ 1100px 时应用的响应式样式 */
 @media (max-width: 1100px) {
+  /* 缩小 body 最小宽度 */
   body { min-width: 760px; }
+
+  /* 侧边栏自动折叠 */
   .sidebar { width: 48px; flex-basis: 48px; padding: 8px 6px; }
+
+  /* 未折叠的侧边栏缩小宽度 */
   .sidebar:not(.collapsed) { width: 260px; flex-basis: 260px; }
+
+  /* 洞察布局改为单列 */
   .insights-layout { grid-template-columns: 1fr; }
+
+  /* 三列输出网格改为单列 */
   .three-output-grid { grid-template-columns: 1fr; }
+
+  /* 摘要字段四列改为两列 */
   .summary-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  /* 审计时间线取消粘性定位，限制最大高度 */
   .audit-timeline { position: static; max-height: 520px; }
+
+  /* 指标卡片三列改为两列 */
   .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }

@@ -1,4 +1,7 @@
-"""Persistence schemas."""
+"""持久化层Pydantic Schema
+定义与数据库ORM模型对应的Pydantic数据模型，用于序列化和API响应。
+通过from_attributes=True配置使Pydantic能直接从SQLAlchemy ORM对象创建实例。
+"""
 
 from __future__ import annotations
 
@@ -9,6 +12,10 @@ from pydantic import BaseModel, ConfigDict, Field
 
 
 class TaskSchema(BaseModel):
+    """任务数据Schema，对应Task表。
+    字段说明:
+        llm_models: 模型配置字典，别名model_config对应数据库中的model_config列
+    """
     model_config = ConfigDict(from_attributes=True, populate_by_name=True)
 
     id: str
@@ -32,6 +39,7 @@ class TaskSchema(BaseModel):
 
 
 class AttackCaseSchema(BaseModel):
+    """攻击用例Schema，对应AttackCase表。"""
     model_config = ConfigDict(from_attributes=True)
 
     id: str
@@ -51,6 +59,7 @@ class AttackCaseSchema(BaseModel):
 
 
 class DetectionResultSchema(BaseModel):
+    """检测结果Schema，对应DetectionResultRecord表。"""
     model_config = ConfigDict(from_attributes=True)
 
     id: str
@@ -71,6 +80,7 @@ class DetectionResultSchema(BaseModel):
 
 
 class AuditEventSchema(BaseModel):
+    """审计事件Schema，对应AuditEvent表。"""
     model_config = ConfigDict(from_attributes=True)
 
     id: str
@@ -90,6 +100,7 @@ class AuditEventSchema(BaseModel):
 
 
 class EvaluationReportSchema(BaseModel):
+    """评估报告Schema，对应EvaluationReport表。"""
     model_config = ConfigDict(from_attributes=True)
 
     id: str

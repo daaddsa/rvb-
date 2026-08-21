@@ -1,4 +1,6 @@
-"""Adapter for external Depteam red-team framework."""
+"""Adapter for external Depteam red-team framework.
+Depteam 外部红队框架适配器，提供攻击用例的导入/导出接口。
+"""
 
 from __future__ import annotations
 
@@ -6,9 +8,15 @@ from backend.orchestrator.state import AttackCaseState
 
 
 class DepteamAdapter:
-    """Keeps a stable boundary for later Depteam integration."""
+    """Depteam 适配器：为后续集成 Depteam 框架保留稳定的边界接口。"""
 
     def export_cases(self, attack_cases: list[AttackCaseState]) -> list[dict]:
+        """将攻击用例导出为 Depteam 兼容格式。
+        参数：
+            attack_cases: 攻击用例列表
+        返回：
+            Depteam 格式的字典列表（仅包含核心字段）
+        """
         return [
             {
                 "id": case.get("id"),
@@ -23,8 +31,15 @@ class DepteamAdapter:
         ]
 
     def import_cases(self, payload: list[dict]) -> list[AttackCaseState]:
+        """从 Depteam 格式导入攻击用例。
+        参数：
+            payload: Depteam 格式的字典列表
+        返回：
+            攻击用例状态列表
+        """
         cases: list[AttackCaseState] = []
         for item in payload:
+            # 跳过缺少必要字段的项
             if not item.get("id") or not item.get("prompt"):
                 continue
             cases.append(

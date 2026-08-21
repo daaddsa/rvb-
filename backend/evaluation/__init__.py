@@ -1,4 +1,6 @@
-"""Evaluation and report generation package."""
+"""Evaluation and report generation package.
+评估和报告生成包，提供指标计算、评分、RedBench 对比和报告生成能力。
+"""
 
 from backend.evaluation.metrics import calculate_metrics
 from backend.evaluation.redbench_runner import compare_with_redbench

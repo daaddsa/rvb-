@@ -1,4 +1,7 @@
-"""Dual-bus event package."""
+"""双总线事件包
+提供快路径（Fast Path）同步总线和慢路径（Slow Path）异步总线，
+用于红蓝对抗执行流程中的事件驱动通信。
+"""
 
 from .events import (
     DefenseFeedback,
