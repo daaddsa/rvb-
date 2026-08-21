@@ -33,7 +33,8 @@ class Settings:
     default_max_rounds: int = 2
     llm_timeout: float = 120.0
     external_eval_api_base_url: str | None = "https://api.deepseek.com"
-    external_eval_api_key: str | None = "sk-5fd2a64792284261b60a44cf429e46a8"
+    """外部评估API基础URL，需要自行配置（如DeepSeek API）"""
+    external_eval_api_key: str | None = ""
 
 
 def get_settings() -> Settings:
