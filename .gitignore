@@ -21,6 +21,9 @@ dist/
 .DS_Store
 Thumbs.db
 
+# Office temp files
+~$*
+
 # Logs
 *.log
 
