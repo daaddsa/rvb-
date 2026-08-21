@@ -21,9 +21,6 @@ dist/
 .DS_Store
 Thumbs.db
 
-# Project nested directory
-第19组考核材料-*/
-
 # Logs
 *.log
 
